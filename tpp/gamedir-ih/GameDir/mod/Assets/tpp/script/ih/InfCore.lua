@@ -687,7 +687,20 @@ function this.GetStringRef(strReference)
     InfCore.Log("WARNING: InfCore.GetStringRef: could not find reference "..strReference,false,true)
     return nil,nil
   end
+
   --tex TODO: could probably keep recursing down split for nested references
+  --ej  DONE: idk how this gets used and it's baked into core so YOLO
+  if #split>2 then
+    for i = 3, #split, 1 do
+      local travelName = split[i]
+      reference = reference[travelName]
+      if reference == nil then
+        InfCore.Log("WARNING: InfCore.GetStringRef: could not find deep reference "..strReference,false,true)
+      end
+    end
+    table.remove(split,1)
+    referenceName = table.concat(split, ".")
+  end
 
   return reference,referenceName,moduleName
 end
