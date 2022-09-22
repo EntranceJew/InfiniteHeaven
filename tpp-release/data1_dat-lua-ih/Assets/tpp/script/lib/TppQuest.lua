@@ -1172,7 +1172,9 @@ function this.GetSideOpsListTable()
     --tex manage ui entry limit>
     local maxUIQuests=192
     local overCount=#sideOpsListTable-maxUIQuests
-    InfCore.Log("overCount:"..overCount)--tex DEBUG
+    if this.debugModule then
+      InfCore.Log("overCount:"..overCount)--tex DEBUG
+    end
     if overCount>0 then
       --tex TODO user message?
       InfMain.RandomSetToLevelSeed()
@@ -1184,17 +1186,21 @@ function this.GetSideOpsListTable()
         for j,sideopEntry in ipairs(sideOpsListTable)do
           if sideopEntry==removeEntry then
             table.remove(sideOpsListTable,j)
-            InfCore.Log("removing "..sideopEntry.index)--tex DEBUG
+            if this.debugModule then
+              InfCore.Log("removing "..sideopEntry.index)--tex DEBUG
+            end
             break
           end
         end
       end
       InfMain.RandomResetToOsTime()
     end
-    if #sideOpsListTable>maxUIQuests then
-      InfCore.Log("WARNING: sidopList > maxUiQuests",true)--tex TODO lang
+    if this.debugModule then
+      if #sideOpsListTable>maxUIQuests then
+        InfCore.Log("WARNING: sidopList > maxUiQuests",true)--tex TODO lang
+      end
+      InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
     end
-    InfCore.Log("#sideOpsListTable:"..#sideOpsListTable)--tex DEBUG
     --<
   end
 
